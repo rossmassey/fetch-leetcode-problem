@@ -1,7 +1,5 @@
 CREATE TABLE problems (
     title TEXT,
     slug TEXT,
-    num INTEGER
+    num INTEGER PRIMARY KEY
 );
-
-CREATE INDEX idx_num ON problems (num);

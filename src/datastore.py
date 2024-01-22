@@ -13,6 +13,7 @@ class Datastore:
 
     def __enter__(self):
         self.conn = sqlite3.connect(self.db_path)
+        self.conn.row_factory = sqlite3.Row
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -37,6 +38,10 @@ class Datastore:
 
             if want_value:
                 return cursor.fetchone()
+
+    def update_problems(self, problems):
+        for problem_info in problems:
+            self.insert_problem(*problem_info)
 
     def insert_problem(self, num, title, slug):
         stmt = 'INSERT INTO problems (num, title, slug) VALUES (?, ?, ?)'

@@ -1,23 +1,24 @@
 from datastore import Datastore
+from leetcode_api import fetch_problems
 
-def get_problem(num: int) -> dict:
+
+def get_problem(num: int) -> dict | None:
     with Datastore('problems.db', 'schema.sql') as db:
-        db.insert_problem(10, 'title ad', 'slugger')
-        row = db.select_problem(num)
-        if row:
-            print('found a row lol')
-            print(row)
-        else:
-            print('no')
+        slug = db.select_problem(num)
+        if slug is None:
+            print(f'Could not find {num}')
+            return None
 
 
 
-    # convert num to slug
     # fetch problem info
     # parse problem info
     # return
 
-def get_slug(num: int) -> str:
-    pass
 
-get_problem(10)
+def update_problems():
+    with Datastore('problems.db', 'schema.sql') as db:
+        problems = fetch_problems()
+        db.update_problems(problems)
+
+
