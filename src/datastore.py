@@ -13,19 +13,22 @@ class Datastore:
 
     def __enter__(self):
         self.conn = sqlite3.connect(self.db_path)
-        return self.conn
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.close()
+        if self.conn:
+            self.conn.close()
 
     def _init_db(self):
-        with open(self.schema_path, 'r') as file:
-            schema = file.read()
+        try:
+            with open(self.schema_path, 'r') as file:
+                schema = file.read()
+        except FileNotFoundError:
+            print(f'Could not find schema file: {self.schema_path}')
+            return
 
-        self.conn = sqlite3.connect(self.db_path)
-        self.conn.executescript(schema)
-        self.conn.commit()
-        self.conn.close()
+        with sqlite3.connect(self.db_path) as conn:
+            conn.executescript(schema)
 
     def _query(self, stmt, params, want_value=False):
         with self.conn as conn:
