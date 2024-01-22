@@ -1,5 +1,6 @@
 CREATE TABLE problems (
+    num INTEGER PRIMARY KEY,
     title TEXT,
     slug TEXT,
-    num INTEGER PRIMARY KEY
+    question_id INTEGER
 );

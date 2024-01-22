@@ -1,14 +1,17 @@
 import os
 import sqlite3
 
+DB_PATH = 'problems.db'
+SCHEMA_PATH = 'schema.sql'
 
-class Datastore:
-    def __init__(self, db_path, schema_path):
-        self.db_path = db_path
-        self.schema_path = schema_path
+
+class LeetcodeMetadata:
+    def __init__(self):
+        self.db_path = DB_PATH
+        self.schema_path = SCHEMA_PATH
         self.conn = None
 
-        if not os.path.exists(db_path):
+        if not os.path.exists(self.db_path):
             self._init_db()
 
     def __enter__(self):
@@ -40,13 +43,13 @@ class Datastore:
                 return cursor.fetchone()
 
     def update_problems(self, problems):
-        for problem_info in problems:
-            self.insert_problem(*problem_info)
+        for problem in problems:
+            self.insert_problem(*problem)
 
-    def insert_problem(self, num, title, slug):
-        stmt = 'INSERT INTO problems (num, title, slug) VALUES (?, ?, ?)'
-        self._query(stmt, (num, title, slug))
+    def insert_problem(self, num, title, slug, question_id):
+        stmt = 'INSERT INTO problems (num, title, slug, question_id) VALUES (?, ?, ?, ?)'
+        self._query(stmt, (num, title, slug, question_id))
 
     def select_problem(self, num):
         stmt = 'SELECT * FROM problems WHERE num = ?'
-        return self._query(stmt, (num, ), want_value=True)
+        return self._query(stmt, (num,), want_value=True)

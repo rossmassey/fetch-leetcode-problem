@@ -1,3 +1,3 @@
-from .problem_info import get_problem
+from .problem_info import get_problem, update_problem_listing
 
-__all__ = ['get_problem']
+__all__ = ['get_problem', 'update_problem_listing']
