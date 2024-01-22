@@ -1,5 +1,5 @@
 import leetcode_api
-from datastore import LeetcodeMetadata
+from leetcode_metadata import LeetcodeMetadata
 
 
 def get_problem(num: int) -> dict | None:
