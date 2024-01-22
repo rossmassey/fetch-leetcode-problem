@@ -1,0 +1,32 @@
+
+num                     meta
+slug                    meta                 
+title                   meta
+difficulty              info
+constraints             info
+description             info
+examples                info
+signature               info
+params                  info
+return type             info
+
+synced code             code
+
+
+
+
+
+IDEA:
+>>> import inspect
+
+>>> func_str = 'def add(a: int, b):'
+
+>>> exec(func_str + 'pass')
+>>> func_name = re.search(r'def (\w+)\(', func_str).group(1)
+>>> func = eval(func_name)
+>>> params = inspect.signature(func).parameters
+>>> for name, param in params.items():
+...     print(param)
+...
+a: int
+b

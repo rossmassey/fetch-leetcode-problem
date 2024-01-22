@@ -1,4 +1,4 @@
-import os
+from util import absolute_path
 
 
 def get_leetcode_session_cookie() -> dict:
@@ -9,12 +9,9 @@ def get_leetcode_session_cookie() -> dict:
     Returns:
         dict: each key-value pair corresponds to a cookie.
     """
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    cookies_file_path = os.path.join(script_dir, 'cookies.txt')
-
     token = ''
     try:
-        with open(cookies_file_path, 'r') as file:
+        with open(absolute_path('cookies.txt'), 'r') as file:
             for line in file:
                 if 'LEETCODE_SESSION' in line:
                     items = line.strip().split('\t')

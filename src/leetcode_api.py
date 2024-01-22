@@ -49,7 +49,7 @@ def fetch_synced_code(question_id: int) -> dict:
     return _fetch_graphql(payload)['data']['syncedCode']
 
 
-def fetch_problem_info(slug: str) -> dict | None:
+def fetch_problem_info(slug: str) -> dict:
     payload = {
         "query": """
         query questionCustom($titleSlug: String!) {

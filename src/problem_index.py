@@ -1,14 +1,15 @@
 import os
 import sqlite3
+from util import absolute_path
 
 DB_PATH = 'problems.db'
 SCHEMA_PATH = 'schema.sql'
 
 
-class LeetcodeMetadata:
+class ProblemIndex:
     def __init__(self):
-        self.db_path = DB_PATH
-        self.schema_path = SCHEMA_PATH
+        self.db_path = absolute_path(DB_PATH)
+        self.schema_path = absolute_path(SCHEMA_PATH)
         self.conn = None
 
         if not os.path.exists(self.db_path):
