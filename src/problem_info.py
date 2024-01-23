@@ -25,10 +25,3 @@ def update_problem_listing():
     with ProblemIndex() as db:
         problems = leetcode_api.fetch_problems()
         db.update_problems(problems)
-
-
-# update_problem_listing()
-info = get_problem(130)
-
-for key, value in info.items():
-    print(f'{key:<{15}} {value}')
