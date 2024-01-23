@@ -61,12 +61,11 @@ def html_to_rst(text: str) -> str:
 
 
 def extract_python_snippet(snippets: dict) -> dict:
-    # only interested in python3 snippet for now
-    python_snippet = (
-        snippet['code'] for snippet in snippets
-        if snippet['lang'] == 'Python3'
-    )
-    return next(python_snippet, None)
+    for snippet in snippets:
+        if snippet['lang'] == 'Python3':
+            return snippet['code']
+
+    return None
 
 
 def extract_constraints(constraints_section: str) -> list:

@@ -3,10 +3,10 @@ from problem_index import ProblemIndex
 from parsing import extract_fields
 
 
-def get(num: int) -> dict | None:
+def get_problem(num: int) -> dict | None:
     with ProblemIndex() as db:
         problem = db.select_problem(num)
-        
+
         if problem is None:
             print(f'Could not find {num}')
             return None

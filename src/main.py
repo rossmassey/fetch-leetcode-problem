@@ -1,4 +1,4 @@
-from problem_info import get, update_problem_listing
+from problem_info import get_problem, update_problem_listing
 import sys
 
 
@@ -15,7 +15,7 @@ def main():
         else:
             try:
                 # fetch info for single problem
-                info = get(int(argument))
+                info = get_problem(int(argument))
 
                 if info is None:
                     print(f'No problem info returned')
