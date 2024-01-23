@@ -1,3 +1,12 @@
+# problems index
+problems.db
+
+# cookies file
+cookies.txt
+
+####### GITHUB PYTHON GITIGNORE ########
+########################################
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

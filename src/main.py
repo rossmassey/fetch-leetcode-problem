@@ -6,7 +6,7 @@ def main():
     if len(sys.argv) > 1:
         argument = sys.argv[1]
 
-        if argument == 'u':
+        if argument.lower() == 'u':
             print('Updating problem listing...')
             update_problem_listing()
             print('Updated')
@@ -15,7 +15,10 @@ def main():
             try:
                 num = int(argument)
                 info = get(num)
-                print_info(info)
+                if info is None:
+                    print(f'No problem info returned')
+                else:
+                    print_info(info)
 
             except ValueError:
                 print(f'Invalid argument: {argument}')
@@ -40,6 +43,10 @@ def print_info(info):
     [print_example(example) for example in info['examples']]
     print('Constraints:')
     [print(f'- {constraint}') for constraint in info['constraints']]
+    print('Initial code:')
+    print(info['code_snippet'])
+    print('Synced code:')
+    print(info['code'])
 
     print('\nraw:\n', info)
 
