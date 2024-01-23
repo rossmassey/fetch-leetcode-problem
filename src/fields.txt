@@ -1,14 +1,16 @@
 
-num                     meta
-slug                    meta                 
-title                   meta
-difficulty              info
-constraints             info
-description             info
-examples                info
-signature               info
-params                  info
-return type             info
+num                     meta x
+slug                    meta x
+title                   meta x
+difficulty              info x
+
+constraints             info |
+description             info |-  parse html content
+examples                info |
+
+signature               info |
+params                  info |- parse signature in code snippet
+return type             info |
 
 synced code             code
 

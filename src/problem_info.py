@@ -16,7 +16,7 @@ def get_problem(num: int) -> dict | None:
     problem_info = leetcode_api.fetch_problem_info(slug)
     synced_code = leetcode_api.fetch_synced_code(question_id)
 
-    fields = extract_fields(problem_info)
+    fields = extract_fields(problem_info, synced_code)
     return {**fields, **synced_code} if synced_code else fields
 
 

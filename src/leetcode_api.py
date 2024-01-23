@@ -57,6 +57,7 @@ def fetch_problem_info(slug: str) -> dict:
                 questionId
                 questionFrontendId
                 title
+                titleSlug
                 difficulty
                 content
                 codeSnippets {
