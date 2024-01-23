@@ -36,7 +36,7 @@ def help():
 
 
 def print_info(info):
-    title = f'{info['num']} - {info['title']} - {info['difficulty']}'
+    title = f"{info['num']} - {info['title']} - {info['difficulty']}"
     print(title)
     print('=' * len(title))
     print(info['description'])
@@ -52,11 +52,11 @@ def print_info(info):
 
 
 def print_example(example):
-    print(f'Example {example['n']}')
-    print(f'\tInput: {example['input']}')
-    print(f'\tOutput: {example['output']}')
-    print(f'\tImg: {example['img']}')
-    print(f'\tExplanation: {example['explanation']}')
+    print(f"Example {example['n']}")
+    print(f"\tInput: {example['input']}")
+    print(f"\tOutput: {example['output']}")
+    print(f"\tImg: {example['img']}")
+    print(f"\tExplanation: {example['explanation']}")
 
 
 if __name__ == '__main__':
