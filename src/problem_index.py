@@ -48,7 +48,7 @@ class ProblemIndex:
             self.insert_problem(*problem)
 
     def insert_problem(self, num, title, slug, question_id):
-        stmt = 'INSERT INTO problems (num, title, slug, question_id) VALUES (?, ?, ?, ?)'
+        stmt = 'INSERT OR REPLACE INTO problems (num, title, slug, question_id) VALUES (?, ?, ?, ?)'
         self._query(stmt, (num, title, slug, question_id))
 
     def select_problem(self, num):

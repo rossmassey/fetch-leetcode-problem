@@ -16,6 +16,7 @@ def extract_fields(problem_info: dict, synced_code: dict) -> dict:
         'examples': extract_examples(content.examples),
         'constraints': extract_constraints(content.constraints),
         'code_snippet': extract_python_snippet(problem_info['codeSnippets']),
+        'code': synced_code['code'] if synced_code else None
     }
 
     return fields

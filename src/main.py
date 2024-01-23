@@ -1,4 +1,4 @@
-from problem_info import get_problem, update_problem_listing
+from problem_info import get, update_problem_listing
 import sys
 
 
@@ -7,11 +7,14 @@ def main():
         argument = sys.argv[1]
 
         if argument == 'u':
+            print('Updating problem listing...')
             update_problem_listing()
+            print('Updated')
+
         else:
             try:
                 num = int(argument)
-                info = get_problem(num)
+                info = get(num)
                 for key, value in info.items():
                     print(f'{key:<{15}} {value}')
 
