@@ -38,20 +38,20 @@ def format_and_split_content(content: str) -> namedtuple:
 def html_to_rst(text: str) -> str:
     patterns = {
         # code
-        r'<code>([\s\S]*?)</code>': r'``\1``',
-        # superscript
-        r'<sup>(.*?)</sup>': r'^\1',
-        # bold
-        r'<strong(?: [^>]*)?>(.*?)</strong>': r'**\1**',
-        # italics (remove)
-        r'<em>(.*?)</em>': r'*\1*',
-        # paragraph (remove)
-        r'<p>(.*?)</p>': r'\1',
-        # img
-        r'<img alt="" src="(.*?)" style=".*?" />': r'.. image:: \1\n',
-        # for examples to work
-        r'true': r'True',
-        r'false': r'False',
+        r'<code>([\s\S]*?)</code>':                     r'``\1``',
+        # superscript   
+        r'<sup>(.*?)</sup>':                            r'^\1',
+        # bold  
+        r'<strong(?: [^>]*)?>(.*?)</strong>':           r'**\1**',
+        # italics (remove)  
+        r'<em>(.*?)</em>':                              r'*\1*',
+        # paragraph (remove)    
+        r'<p>(.*?)</p>':                                r'\1',
+        # img   
+        r'<img alt="" src="(.*?)" style=".*?" />':      r'.. image:: \1\n',
+        # for examples to work  
+        r'true':                                        r'True',
+        r'false':                                       r'False',
     }
 
     for pattern, repl in patterns.items():
@@ -61,6 +61,7 @@ def html_to_rst(text: str) -> str:
 
 
 def extract_python_snippet(snippets: dict) -> dict:
+    # only interested in python3 snippet for now
     python_snippet = (
         snippet['code'] for snippet in snippets
         if snippet['lang'] == 'Python3'
@@ -74,15 +75,16 @@ def extract_constraints(constraints_section: str) -> list:
 
 def extract_examples(examples_section: str) -> list:
     patterns = {
-        'input': r'\*\*Input:\*\* ([^\n]+)',
-        'output': r'\*\*Output:\*\* ([^\n]+)',
-        'img': r'\.\. image:: ([^\n]+)',
-        'explanation': r'\*\*Explanation:\*\*([\s\S]+?)(?=</pre>|$)'
+        'input':        r'\*\*Input:\*\* ([^\n]+)',
+        'output':       r'\*\*Output:\*\* ([^\n]+)',
+        'img':          r'\.\. image:: ([^\n]+)',
+        'explanation':  r'\*\*Explanation:\*\*([\s\S]+?)(?=</pre>|$)'
     }
 
     example_list = re.split(r'\*\*Example \d+:\*\*', examples_section)
     example_list = example_list[1:]  # first split is empty so drop
 
+    # each example has own data dict
     examples = []
     for n, example in enumerate(example_list, 1):
         data = {
@@ -90,6 +92,7 @@ def extract_examples(examples_section: str) -> list:
             'input': None, 'output': None, 'img': None, 'explanation': None
         }
 
+        # extract each pattern
         for key, pattern in patterns.items():
             if match := re.search(pattern, example):
                 data[key] = match.group(1)

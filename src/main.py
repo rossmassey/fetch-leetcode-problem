@@ -6,6 +6,7 @@ def main():
     if len(sys.argv) > 1:
         argument = sys.argv[1]
 
+        # fetch all the leetcode problems and store in local sqlite
         if argument.lower() == 'u':
             print('Updating problem listing...')
             update_problem_listing()
@@ -13,8 +14,9 @@ def main():
 
         else:
             try:
-                num = int(argument)
-                info = get(num)
+                # fetch info for single problem
+                info = get(int(argument))
+
                 if info is None:
                     print(f'No problem info returned')
                 else:
@@ -22,17 +24,17 @@ def main():
 
             except ValueError:
                 print(f'Invalid argument: {argument}')
-                help()
+                print_help()
     else:
         print('No arguments provided.')
-        help()
+        print_help()
 
 
-def help():
+def print_help():
     print('Usage:')
     print('')
-    print('main.py u     -- update the problem index')
-    print('main.py <num> -- get problem info for <num>')
+    print('main.py u      -- update the problem index')
+    print('main.py <num>  -- get problem info for <num>')
 
 
 def print_info(info):
@@ -40,16 +42,22 @@ def print_info(info):
     print(title)
     print('=' * len(title))
     print(info['description'])
-    [print_example(example) for example in info['examples']]
+
+    print('Examples:')
+    for example in info['examples']:
+        print_example(example)
+
     print('Constraints:')
-    [print(f'- {constraint}') for constraint in info['constraints']]
+    for constraint in info['constraints']:
+        print(f'- {constraint}')
+
     print('Initial code:')
     print(info['code_snippet'])
+
     print('Synced code:')
     print(info['code'])
 
     print('\nraw:\n', info)
-
 
 def print_example(example):
     print(f"Example {example['n']}")

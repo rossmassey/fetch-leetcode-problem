@@ -14,6 +14,6 @@ def get_leetcode_session_cookie(cookie_file: str) -> dict:
         print(f'Could not find {cookie_file}')
     
     if not token:
-        print(f'Token not present in {cookie_file}')
+        print(f'LEETCODE_SESSION token not found at {cookie_file}')
 
     return {'LEETCODE_SESSION': token}
