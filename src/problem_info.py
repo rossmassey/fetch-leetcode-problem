@@ -6,12 +6,13 @@ from parsing import extract_fields
 def get_problem(num: int) -> dict | None:
     with ProblemIndex() as db:
         problem = db.select_problem(num)
-        slug = problem['slug']
-        question_id = problem['question_id']
-
-        if slug is None:
+        if problem is None:
             print(f'Could not find {num}')
             return None
+        
+    slug = problem['slug']
+    question_id = problem['question_id']
+
 
     problem_info = leetcode_api.fetch_problem_info(slug)
     synced_code = leetcode_api.fetch_synced_code(question_id)
@@ -27,4 +28,6 @@ def update_problem_listing():
 
 
 # update_problem_listing()
-print(get_problem(3))
+info = get_problem(1130)
+for key, value in info.items():
+    print(f'{key:<{15}} {value}')
