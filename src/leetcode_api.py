@@ -4,7 +4,7 @@ from cookies import get_leetcode_session_cookie
 PROBLEM_API = 'https://leetcode.com/api/problems/all/'
 GRAPHQL_API = 'https://leetcode.com/graphql'
 
-COOKIE = get_leetcode_session_cookie()
+COOKIE = get_leetcode_session_cookie('cookies.txt')
 
 
 def fetch_problems() -> list:

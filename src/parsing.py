@@ -1,4 +1,5 @@
 import re
+import html
 from collections import namedtuple
 
 def extract_fields(problem_info: dict, synced_code: dict) -> dict:
@@ -9,7 +10,7 @@ def extract_fields(problem_info: dict, synced_code: dict) -> dict:
         'slug': problem_info['titleSlug'],
         'difficulty': problem_info['difficulty'],
         'description': content.description,
-        'examples': content.examples,
+        'examples': extract_examples(content.examples),
         'constraints': extract_constraints(content.constraints),
         'code_snippet': extract_python_snippet(problem_info['codeSnippets']),
     }
@@ -17,8 +18,11 @@ def extract_fields(problem_info: dict, synced_code: dict) -> dict:
     return fields
 
 def split_content(content: str) -> namedtuple:
-    # leetcode use this to delimit sections
-    sections = content.split('<p>&nbsp;</p>')  
+    # fix weird symbols
+    content = html.unescape(content)
+
+    # leetcode use non-breaking space (nbsp) to delimit sections
+    sections = content.split('<p>\xa0</p>')
 
     ContentSections = namedtuple('ContentSections', 
                                  'description examples constraints')
@@ -32,12 +36,17 @@ def split_content(content: str) -> namedtuple:
 def extract_python_snippet(snippets: dict) -> dict:
     python_filter = lambda snippet: snippet['lang'] == 'Python3'
     python_snippet = filter(python_filter, snippets)
+
     return next(python_snippet)['code']
 
 def extract_constraints(constraints_section: str) -> list:
     return re.findall(r'<li>(.*?)</li>', constraints_section)
 
-def extract_examples(description_section: str) -> str:
-    # print(content)
-    # print(split_content(content).examples)
+def extract_examples(examples_section: str) -> str:
+    # TODO extract description, img, [input], output 
+    return examples_section
+
+
+def html_to_rst(content: str) -> str:
+    # TODO copy clean_html function
     pass

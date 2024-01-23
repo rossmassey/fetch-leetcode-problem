@@ -28,6 +28,6 @@ def update_problem_listing():
 
 
 # update_problem_listing()
-info = get_problem(1130)
+info = get_problem(4)
 for key, value in info.items():
     print(f'{key:<{15}} {value}')
