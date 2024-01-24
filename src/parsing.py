@@ -106,8 +106,6 @@ def extract_examples(examples_section: str) -> list:
 
 
 def extract_function_info(code: str) -> dict | None:
-
-
     tree = ast.parse(add_pass_to_functions(code))
 
     nodes = defaultdict(list)
@@ -124,9 +122,10 @@ def extract_function_info(code: str) -> dict | None:
     if class_name != 'Solution':
         return None
 
-    # assume there is one function to implement
+    # assume there is one function
     function = nodes['FunctionDef'][0]
 
+    # extract each param and associated type
     params = []
     param_types = []
     for arg in function.args.args:
@@ -140,6 +139,7 @@ def extract_function_info(code: str) -> dict | None:
 
         param_types.append(param_type)
 
+    # extract function return type
     rtype = None
     if function.returns and hasattr(function.returns, 'id'):
         rtype = function.returns.id
@@ -162,8 +162,9 @@ def add_pass_to_functions(class_definition):
         modified_lines.append(line)
 
         if line.strip().startswith('def'):
-            indent = len(line) - len(line.lstrip())
-            indented_pass = ' ' * indent + '    pass'
+            # account for class offset
+            indent = 4 + len(line) - len(line.lstrip())
+            indented_pass = ' ' * indent + 'pass'
             modified_lines.append(indented_pass)
 
     return '\n'.join(modified_lines)

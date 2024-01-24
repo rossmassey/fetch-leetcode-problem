@@ -57,6 +57,9 @@ def print_info(info):
     print('Synced code:')
     print(info['code'])
 
+    print('Func info:')
+    print(info['func'])
+
     print('\nraw:\n', info)
 
 def print_example(example):
