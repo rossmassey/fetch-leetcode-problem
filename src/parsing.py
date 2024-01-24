@@ -43,16 +43,22 @@ def html_to_rst(text: str) -> str:
     patterns = {
         # code
         r'<code>([\s\S]*?)</code>': r'``\1``',
+
         # superscript   
         r'<sup>(.*?)</sup>': r'^\1',
+
         # bold  
         r'<strong(?: [^>]*)?>(.*?)</strong>': r'**\1**',
+
         # italics (remove)  
         r'<em>(.*?)</em>': r'*\1*',
+
         # paragraph (remove)    
         r'<p>(.*?)</p>': r'\1',
+
         # img   
         r'<img alt="" src="(.*?)" style=".*?" />': r'.. image:: \1\n',
+
         # for examples to work  
         r'true': r'True',
         r'false': r'False',

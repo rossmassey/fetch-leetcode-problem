@@ -20,7 +20,7 @@ def main():
                 if info is None:
                     print(f'No problem info returned')
                 else:
-                    print_info(info)
+                    print(info)
 
             except ValueError:
                 print(f'Invalid argument: {argument}')
@@ -59,8 +59,6 @@ def print_info(info):
 
     print('Func info:')
     print(info['func'])
-
-    print('\nraw:\n', info)
 
 def print_example(example):
     print(f"Example {example['n']}")
