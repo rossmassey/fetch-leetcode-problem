@@ -1,11 +1,13 @@
 import re
 import html
-from collections import namedtuple
-from typing import List
+import ast
+from collections import namedtuple, defaultdict
+from typing import List, Any
 
 
 def extract_fields(problem_info: dict, synced_code: dict) -> dict:
     content = format_and_split_content(problem_info['content'])
+    code_snippet = extract_python_snippet(problem_info['codeSnippets'])
 
     fields = {
         'num': problem_info['questionFrontendId'],
@@ -15,8 +17,9 @@ def extract_fields(problem_info: dict, synced_code: dict) -> dict:
         'description': content.description,
         'examples': extract_examples(content.examples),
         'constraints': extract_constraints(content.constraints),
-        'code_snippet': extract_python_snippet(problem_info['codeSnippets']),
-        'code': synced_code['code'] if synced_code else None
+        'code_snippet': code_snippet,
+        'code': synced_code['code'] if synced_code else None,
+        'func': extract_function_info(code_snippet)
     }
 
     return fields
@@ -35,23 +38,24 @@ def format_and_split_content(content: str) -> namedtuple:
 
     return Content(sections[0], sections[1], sections[2])
 
+
 def html_to_rst(text: str) -> str:
     patterns = {
         # code
-        r'<code>([\s\S]*?)</code>':                     r'``\1``',
+        r'<code>([\s\S]*?)</code>': r'``\1``',
         # superscript   
-        r'<sup>(.*?)</sup>':                            r'^\1',
+        r'<sup>(.*?)</sup>': r'^\1',
         # bold  
-        r'<strong(?: [^>]*)?>(.*?)</strong>':           r'**\1**',
+        r'<strong(?: [^>]*)?>(.*?)</strong>': r'**\1**',
         # italics (remove)  
-        r'<em>(.*?)</em>':                              r'*\1*',
+        r'<em>(.*?)</em>': r'*\1*',
         # paragraph (remove)    
-        r'<p>(.*?)</p>':                                r'\1',
+        r'<p>(.*?)</p>': r'\1',
         # img   
-        r'<img alt="" src="(.*?)" style=".*?" />':      r'.. image:: \1\n',
+        r'<img alt="" src="(.*?)" style=".*?" />': r'.. image:: \1\n',
         # for examples to work  
-        r'true':                                        r'True',
-        r'false':                                       r'False',
+        r'true': r'True',
+        r'false': r'False',
     }
 
     for pattern, repl in patterns.items():
@@ -60,7 +64,7 @@ def html_to_rst(text: str) -> str:
     return text
 
 
-def extract_python_snippet(snippets: dict) -> dict:
+def extract_python_snippet(snippets: dict) -> str | None:
     for snippet in snippets:
         if snippet['lang'] == 'Python3':
             return snippet['code']
@@ -74,10 +78,10 @@ def extract_constraints(constraints_section: str) -> list:
 
 def extract_examples(examples_section: str) -> list:
     patterns = {
-        'input':        r'\*\*Input:\*\* ([^\n]+)',
-        'output':       r'\*\*Output:\*\* ([^\n]+)',
-        'img':          r'\.\. image:: ([^\n]+)',
-        'explanation':  r'\*\*Explanation:\*\*([\s\S]+?)(?=</pre>|$)'
+        'input': r'\*\*Input:\*\* ([^\n]+)',
+        'output': r'\*\*Output:\*\* ([^\n]+)',
+        'img': r'\.\. image:: ([^\n]+)',
+        'explanation': r'\*\*Explanation:\*\*([\s\S]+?)(?=</pre>|$)'
     }
 
     example_list = re.split(r'\*\*Example \d+:\*\*', examples_section)
@@ -99,3 +103,68 @@ def extract_examples(examples_section: str) -> list:
         examples.append(data)
 
     return examples
+
+
+def extract_function_info(code: str) -> dict | None:
+
+
+    tree = ast.parse(add_pass_to_functions(code))
+
+    nodes = defaultdict(list)
+    for node in ast.walk(tree):
+        nodes[node.__class__.__name__].append(node)
+
+    if not nodes['ClassDef'] or not nodes['FunctionDef']:
+        return None
+
+    # should only have one class
+    class_name = nodes['ClassDef'][0].name
+
+    # skip class based solutions (i.e. 155 - MinStack) for now
+    if class_name != 'Solution':
+        return None
+
+    # assume there is one function to implement
+    function = nodes['FunctionDef'][0]
+
+    params = []
+    param_types = []
+    for arg in function.args.args:
+        params.append(arg.arg)
+        param_type = None
+
+        if arg.annotation and hasattr(arg.annotation, 'id'):
+            param_type = arg.annotation.id
+        elif arg.annotation:
+            param_type = f'{arg.annotation.value.id}[{arg.annotation.slice.id}]'
+
+        param_types.append(param_type)
+
+    rtype = None
+    if function.returns and hasattr(function.returns, 'id'):
+        rtype = function.returns.id
+    elif function.returns:
+        rtype = f'{function.returns.value.id}[{function.returns.slice.id}]'
+
+    return {
+        'name': function.name,
+        'params': params,
+        'param_types': param_types,
+        'rtype': rtype
+    }
+
+
+def add_pass_to_functions(class_definition):
+    lines = class_definition.split('\n')
+    modified_lines = []
+
+    for i, line in enumerate(lines):
+        modified_lines.append(line)
+
+        if line.strip().startswith('def'):
+            indent = len(line) - len(line.lstrip())
+            indented_pass = ' ' * indent + '    pass'
+            modified_lines.append(indented_pass)
+
+    return '\n'.join(modified_lines)
+
