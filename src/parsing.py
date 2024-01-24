@@ -106,48 +106,16 @@ def extract_examples(examples_section: str) -> list:
 
 
 def extract_function_info(code: str) -> dict | None:
-    tree = ast.parse(add_pass_to_functions(code))
+    function_ast = generate_function_ast(code)
 
-    nodes = defaultdict(list)
-    for node in ast.walk(tree):
-        nodes[node.__class__.__name__].append(node)
-
-    if not nodes['ClassDef'] or not nodes['FunctionDef']:
+    if function_ast is None:
         return None
 
-    # should only have one class
-    class_name = nodes['ClassDef'][0].name
-
-    # skip class based solutions (i.e. 155 - MinStack) for now
-    if class_name != 'Solution':
-        return None
-
-    # assume there is one function
-    function = nodes['FunctionDef'][0]
-
-    # extract each param and associated type
-    params = []
-    param_types = []
-    for arg in function.args.args:
-        params.append(arg.arg)
-        param_type = None
-
-        if arg.annotation and hasattr(arg.annotation, 'id'):
-            param_type = arg.annotation.id
-        elif arg.annotation:
-            param_type = f'{arg.annotation.value.id}[{arg.annotation.slice.id}]'
-
-        param_types.append(param_type)
-
-    # extract function return type
-    rtype = None
-    if function.returns and hasattr(function.returns, 'id'):
-        rtype = function.returns.id
-    elif function.returns:
-        rtype = f'{function.returns.value.id}[{function.returns.slice.id}]'
+    params, param_types = get_params(function_ast)
+    rtype = get_rtype(function_ast)
 
     return {
-        'name': function.name,
+        'name': function_ast.name,
         'params': params,
         'param_types': param_types,
         'rtype': rtype
@@ -169,3 +137,49 @@ def add_pass_to_functions(class_definition):
 
     return '\n'.join(modified_lines)
 
+
+def generate_function_ast(code: str) -> ast.FunctionDef | None:
+    tree = ast.parse(add_pass_to_functions(code))
+
+    nodes = defaultdict(list)
+    for node in ast.walk(tree):
+        nodes[node.__class__.__name__].append(node)
+
+    if not nodes['ClassDef'] or not nodes['FunctionDef']:
+        return None
+
+    # should only have one class
+    class_name = nodes['ClassDef'][0].name
+
+    # skip class based solutions (i.e. 155 - MinStack) for now
+    if class_name != 'Solution':
+        return None
+
+    # assume there is one function
+    return nodes['FunctionDef'][0]
+
+
+def get_params(function_ast: ast.FunctionDef) -> tuple:
+    params = []
+    param_types = []
+    for arg in function_ast.args.args:
+        params.append(arg.arg)
+        param_type = None
+
+        if arg.annotation and hasattr(arg.annotation, 'id'):
+            param_type = arg.annotation.id
+        elif arg.annotation:
+            param_type = f'{arg.annotation.value.id}[{arg.annotation.slice.id}]'
+
+        param_types.append(param_type)
+
+    return params, param_types
+
+
+def get_rtype(function_ast: ast.FunctionDef) -> str | None:
+    rtype = None
+    if function_ast.returns and hasattr(function_ast.returns, 'id'):
+        rtype = function_ast.returns.id
+    elif function_ast.returns:
+        rtype = f'{function_ast.returns.value.id}[{function_ast.returns.slice.id}]'
+    return rtype
