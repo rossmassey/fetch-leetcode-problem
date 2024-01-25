@@ -95,7 +95,7 @@ def _add_pass_to_functions(class_src: str) -> str:
     lines = class_src.split('\n')
     modified_lines = []
 
-    for i, line in enumerate(lines):
+    for line in lines:
         modified_lines.append(line)
 
         if line.strip().startswith('def'):
