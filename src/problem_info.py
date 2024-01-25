@@ -25,7 +25,7 @@ def update_problem_listing():
         db.update_problems(problems)
 
 
-def count_problems():
+def count_problems() -> int:
     with ProblemIndex() as db:
         count = db.count_problems()
 
