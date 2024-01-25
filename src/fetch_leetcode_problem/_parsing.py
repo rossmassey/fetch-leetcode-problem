@@ -5,7 +5,7 @@ import html
 import re
 from collections import namedtuple
 
-from _func_parsing import generate_function_ast, get_params, get_rtype
+from ._func_parsing import generate_function_ast, get_params, get_rtype
 
 
 def extract_fields(problem_info: dict, synced_code: dict) -> dict:

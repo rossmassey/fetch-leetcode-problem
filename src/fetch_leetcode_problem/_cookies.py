@@ -1,7 +1,7 @@
 """
 Get cookie for LeetCode API
 """
-from _util import absolute_path
+from ._util import absolute_path
 
 
 def get_leetcode_session_cookie(cookie_file: str) -> dict:

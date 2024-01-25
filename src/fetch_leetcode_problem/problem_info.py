@@ -2,9 +2,9 @@
 Gets problem information from leetcode. Stores problem num, title, slug,
 question id in sqlite3 database.
 """
-import _leetcode_api
-from _parsing import extract_fields
-from _problem_index import ProblemIndex
+from . import _leetcode_api
+from ._parsing import extract_fields
+from ._problem_index import ProblemIndex
 
 
 def get_problem(num: int) -> dict | None:

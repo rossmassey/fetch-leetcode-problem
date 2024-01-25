@@ -9,7 +9,7 @@ Usage:
 """
 import sys
 
-import problem_info
+from . import problem_info
 
 
 def main():

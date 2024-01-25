@@ -3,7 +3,7 @@ Functions to fetch data from LeetCode API
 """
 import requests
 
-from _cookies import get_leetcode_session_cookie
+from ._cookies import get_leetcode_session_cookie
 
 PROBLEM_API = 'https://leetcode.com/api/problems/all/'
 GRAPHQL_API = 'https://leetcode.com/graphql'

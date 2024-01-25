@@ -6,7 +6,7 @@ Implements context manager protocol with sqlite3
 import os
 import sqlite3
 
-from _util import absolute_path
+from ._util import absolute_path
 
 # sqlite3 database file store location
 DB_PATH = 'problems.db'
