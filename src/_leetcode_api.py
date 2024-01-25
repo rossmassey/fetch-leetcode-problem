@@ -1,5 +1,6 @@
 import requests
-from cookies import get_leetcode_session_cookie
+
+from _cookies import get_leetcode_session_cookie
 
 PROBLEM_API = 'https://leetcode.com/api/problems/all/'
 GRAPHQL_API = 'https://leetcode.com/graphql'
@@ -33,7 +34,7 @@ def _fetch_graphql(payload: dict) -> dict:
 def fetch_synced_code(question_id: int) -> dict:
     python_language_id = 11  # only get python for now
     payload = {
-        "query": """
+        "query":     """
         query SyncedCode($questionId: Int!, $lang: Int!) {
           syncedCode(questionId: $questionId, lang: $lang) {
             code
@@ -42,7 +43,7 @@ def fetch_synced_code(question_id: int) -> dict:
         """,
         "variables": {
             "questionId": question_id,
-            "lang": python_language_id
+            "lang":       python_language_id
         }
     }
 
@@ -51,7 +52,7 @@ def fetch_synced_code(question_id: int) -> dict:
 
 def fetch_problem_info(slug: str) -> dict:
     payload = {
-        "query": """
+        "query":     """
         query questionCustom($titleSlug: String!) {
             question(titleSlug: $titleSlug) {
                 questionId

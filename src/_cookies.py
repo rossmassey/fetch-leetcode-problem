@@ -1,4 +1,4 @@
-from util import absolute_path
+from _util import absolute_path
 
 
 def get_leetcode_session_cookie(cookie_file: str) -> dict:
@@ -12,7 +12,7 @@ def get_leetcode_session_cookie(cookie_file: str) -> dict:
 
     except FileNotFoundError:
         print(f'Could not find {cookie_file}')
-    
+
     if not token:
         print(f'LEETCODE_SESSION token not found')
 

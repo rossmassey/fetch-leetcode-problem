@@ -1,5 +1,6 @@
-import problem_info
 import sys
+
+import problem_info
 
 
 def main():
@@ -41,37 +42,6 @@ def print_help():
     print('main.py u      -- update the problem index')
     print('main.py c      -- count number of problems')
     print('main.py <num>  -- get problem info for <num>')
-
-
-def print_info(info):
-    title = f"{info['num']} - {info['title']} - {info['difficulty']}"
-    print(title)
-    print('=' * len(title))
-    print(info['description'])
-
-    print('Examples:')
-    for example in info['examples']:
-        print_example(example)
-
-    print('Constraints:')
-    for constraint in info['constraints']:
-        print(f'- {constraint}')
-
-    print('Initial code:')
-    print(info['code_snippet'])
-
-    print('Synced code:')
-    print(info['code'])
-
-    print('Func info:')
-    print(info['func'])
-
-def print_example(example):
-    print(f"Example {example['n']}")
-    print(f"\tInput: {example['input']}")
-    print(f"\tOutput: {example['output']}")
-    print(f"\tImg: {example['img']}")
-    print(f"\tExplanation: {example['explanation']}")
 
 
 if __name__ == '__main__':

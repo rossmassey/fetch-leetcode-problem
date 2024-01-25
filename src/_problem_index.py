@@ -1,6 +1,7 @@
 import os
 import sqlite3
-from util import absolute_path
+
+from _util import absolute_path
 
 DB_PATH = 'problems.db'
 SCHEMA_PATH = 'schema.sql'

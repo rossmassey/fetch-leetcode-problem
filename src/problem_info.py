@@ -1,6 +1,6 @@
-import leetcode_api
-from problem_index import ProblemIndex
-from parsing import extract_fields
+import _leetcode_api
+from _parsing import extract_fields
+from _problem_index import ProblemIndex
 
 
 def get_problem(num: int) -> dict | None:
@@ -11,15 +11,15 @@ def get_problem(num: int) -> dict | None:
         print(f'Could not find {num}')
         return None
 
-    problem_info = leetcode_api.fetch_problem_info(problem['slug'])
-    synced_code = leetcode_api.fetch_synced_code(problem['question_id'])
+    problem_info = _leetcode_api.fetch_problem_info(problem['slug'])
+    synced_code = _leetcode_api.fetch_synced_code(problem['question_id'])
 
     fields = extract_fields(problem_info, synced_code)
     return fields
 
 
 def update_problem_listing():
-    problems = leetcode_api.fetch_problems()
+    problems = _leetcode_api.fetch_problems()
 
     with ProblemIndex() as db:
         db.update_problems(problems)

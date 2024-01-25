@@ -28,9 +28,9 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
 - **get_problems(num: int) -> dict | None**
   - query leetcode GraphQL API to return problem info
 - **update_problem_listing()**
-  - creates lookup table from leetcode API problem listing indexed  by `num`
+  - creates lookup table from leetcode REST API all-problem listing, indexed  by `num`
   - `slug` needed for problem info
-  - `question_id` (separate from `num`) needed for synced code 
+  - `question_id` (can be separate from `num`) needed for synced code 
 - **count_problems() -> int**
   - returns count in local db
 
@@ -38,9 +38,9 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
 ## cookies.txt
 Export a Netscape HTTP Cookie File for `leetcode.com` (see browser extensions).
 
-Alternatively, create a file with the word `LEETCODE_SESSION`, a tab (`\t`), 
-and your session token. This can be found in the `leetcode.com` headers through 
-the Network tab in your browser's developer tools.
+Alternatively, create a file with the text `LEETCODE_SESSION`, a tab (`\t`), 
+and your session token. This can be found in the Network tab in developer tools, 
+under Request Cookies, for requests to `leetcode.com`.
 
 Save as `cookies.txt` in the `src/` directory.
 
@@ -112,5 +112,3 @@ Out[4]:
   'rtype': 'int'}}
 
 ```
-
-
