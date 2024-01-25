@@ -79,7 +79,7 @@ def _html_to_rst(text: str) -> str:
         r'<strong(?: [^>]*)?>(.*?)</strong>':      r'**\1**',
         r'<em>(.*?)</em>':                         r'*\1*',
         r'<p>(.*?)</p>':                           r'\1',
-        r'<img alt="" src="(.*?)" style=".*?" />': r'.. image:: \1\n',
+        r'<img [^>]*src="(.*?)"[^>]*>':            r'.. image:: \1\n',
 
         # for examples to work  
         r'true':                                   r'True',
