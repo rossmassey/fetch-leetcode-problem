@@ -1,3 +1,6 @@
+"""
+Functions to fetch data from LeetCode API
+"""
 import requests
 
 from _cookies import get_leetcode_session_cookie
@@ -9,6 +12,12 @@ COOKIE = get_leetcode_session_cookie('cookies.txt')
 
 
 def fetch_problems() -> list:
+    """
+    Fetch all problems from LeetCode API
+
+    Returns:
+        list: tuples with num, title, slug, and question id for each problem
+    """
     response = requests.get(PROBLEM_API)
     data = response.json()
 
@@ -27,11 +36,29 @@ def fetch_problems() -> list:
 
 
 def _fetch_graphql(payload: dict) -> dict:
+    """
+    Fetch data from LeetCode GraphQL API
+
+    Args:
+        payload (dict): json payload to send
+
+    Returns:
+        dict: json response
+    """
     response = requests.post(GRAPHQL_API, json=payload, cookies=COOKIE)
     return response.json()
 
 
 def fetch_synced_code(question_id: int) -> dict:
+    """
+    Fetch synced code from LeetCode GraphQL API
+
+    Args:
+        question_id (int): problem question id (not frontend id)
+
+    Returns:
+        dict: json response with synced code
+    """
     python_language_id = 11  # only get python for now
     payload = {
         "query":     """
@@ -51,6 +78,15 @@ def fetch_synced_code(question_id: int) -> dict:
 
 
 def fetch_problem_info(slug: str) -> dict:
+    """
+    Fetch problem info
+
+    Args:
+        slug (str): problem title slug
+
+    Returns:
+        dict: json response with problem info
+    """
     payload = {
         "query":     """
         query questionCustom($titleSlug: String!) {

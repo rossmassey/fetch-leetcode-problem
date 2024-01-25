@@ -1,3 +1,6 @@
+"""
+Functions for parsing leetcode problem info
+"""
 import html
 import re
 from collections import namedtuple
@@ -6,6 +9,17 @@ from _func_parsing import generate_function_ast, get_params, get_rtype
 
 
 def extract_fields(problem_info: dict, synced_code: dict) -> dict:
+    """
+    Extracts fields from problem info and synced code
+
+    Args:
+        problem_info (dict): problem info dict
+        synced_code (dict): synced user python code
+
+    Returns:
+        dict: all the problem info fields
+
+    """
     content = _format_and_split_content(problem_info['content'])
     code_snippet = _extract_python_snippet(problem_info['codeSnippets'])
 
@@ -26,6 +40,15 @@ def extract_fields(problem_info: dict, synced_code: dict) -> dict:
 
 
 def _format_and_split_content(content: str) -> namedtuple:
+    """
+    Formats html content and splits into sections
+
+    Args:
+        content (str): leetcode problem content
+
+    Returns:
+        tuple: description, examples, and constraints from content
+    """
     # leetcode use non-breaking space (nbsp) to delimit sections
     sections = content.split('<p>&nbsp;</p>')
 
@@ -40,6 +63,15 @@ def _format_and_split_content(content: str) -> namedtuple:
 
 
 def _html_to_rst(text: str) -> str:
+    """
+    Replaces html tags with rst syntax
+
+    Args:
+        text (str): html text
+
+    Returns:
+        str: rst formatted text
+    """
     patterns = {
         # html pattern -> rst pattern
         r'<code>([\s\S]*?)</code>':                r'``\1``',
@@ -61,6 +93,15 @@ def _html_to_rst(text: str) -> str:
 
 
 def _extract_python_snippet(snippets: dict) -> str | None:
+    """
+    Extracts python code snippet from list of snippets
+
+    Args:
+        snippets (dict): leetcode problem code snippets
+
+    Returns:
+        str: the python3 snippet if present
+    """
     for snippet in snippets:
         if snippet['lang'] == 'Python3':
             return snippet['code']
@@ -68,11 +109,16 @@ def _extract_python_snippet(snippets: dict) -> str | None:
     return None
 
 
-def _extract_constraints(constraints_section: str) -> list:
-    return re.findall(r'<li>(.*?)</li>', constraints_section)
-
-
 def _extract_examples(examples_section: str) -> list:
+    """
+    Extract and parse each example from examples section
+
+    Args:
+        examples_section (dict): leetcode content section containing examples
+
+    Returns:
+        list: dict with input, output, img, and explanation for each example
+    """
     patterns = {
         'input':       r'\*\*Input:\*\* ([^\n]+)',
         'output':      r'\*\*Output:\*\* ([^\n]+)',
@@ -86,9 +132,8 @@ def _extract_examples(examples_section: str) -> list:
 
     # each example has own data dict
     examples = []
-    for n, example in enumerate(example_list, 1):
+    for example in example_list:
         data = {
-            'n':     n,
             'input': None, 'output': None, 'img': None, 'explanation': None
         }
 
@@ -102,7 +147,29 @@ def _extract_examples(examples_section: str) -> list:
     return examples
 
 
+def _extract_constraints(constraints_section: str) -> list:
+    """
+    Extracts constraints from constraints section
+
+    Args:
+        constraints_section (str): leetcode content section containing constraints
+
+    Returns:
+        list: all the constraints
+    """
+    return re.findall(r'<li>(.*?)</li>', constraints_section)
+
+
 def _extract_function_info(code: str) -> dict | None:
+    """
+    Extracts function info from python code
+
+    Args:
+        code (str): python class
+
+    Returns:
+        dict: function info with name, params, param_types, and rtype
+    """
     function_ast = generate_function_ast(code)
 
     if function_ast is None:

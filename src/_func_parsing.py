@@ -1,8 +1,20 @@
+"""
+Functions for parsing leetcode code snippet
+"""
 import ast
 from collections import defaultdict
 
 
 def generate_function_ast(code: str) -> ast.FunctionDef | None:
+    """
+    Generates abstract syntax tree (ast) from code
+
+    Args:
+        code (str): class source code
+
+    Returns:
+        ast.FunctionDef: function ast for the leetcode problem
+    """
     tree = ast.parse(_add_pass_to_functions(code))
 
     nodes = defaultdict(list)
@@ -24,6 +36,15 @@ def generate_function_ast(code: str) -> ast.FunctionDef | None:
 
 
 def get_params(function_ast: ast.FunctionDef) -> tuple:
+    """
+    Gets function parameters and types
+
+    Args:
+        function_ast (ast.FunctionDef): function ast
+
+    Returns:
+        tuple: list of parameters and ist of types
+    """
     params = []
     param_types = []
     for arg in function_ast.args.args:
@@ -44,6 +65,15 @@ def get_params(function_ast: ast.FunctionDef) -> tuple:
 
 
 def get_rtype(function_ast: ast.FunctionDef) -> str | None:
+    """
+    Gets function return type
+
+    Args:
+        function_ast (ast.FunctionDef): function ast
+
+    Returns:
+        str: the return type of the function
+    """
     rtype = None
     # FIXME: see above
     if function_ast.returns and hasattr(function_ast.returns, 'id'):
@@ -54,6 +84,14 @@ def get_rtype(function_ast: ast.FunctionDef) -> str | None:
 
 
 def _add_pass_to_functions(class_src: str) -> str:
+    """
+    Adds `pass` to each function in class source code to allow for ast parsing
+
+    Args:
+        class_src: source code of class
+
+    Returns: source code with `pass` added to each function
+    """
     lines = class_src.split('\n')
     modified_lines = []
 

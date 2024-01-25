@@ -1,3 +1,12 @@
+"""
+Main entry point for the program.
+
+Usage:
+    main.py u      -- update the problem index
+    main.py c      -- count number of problems
+    main.py <num>  -- get problem info for <num>
+
+"""
 import sys
 
 import problem_info

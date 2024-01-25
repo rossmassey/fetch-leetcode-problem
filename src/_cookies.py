@@ -1,7 +1,19 @@
+"""
+Get cookie for LeetCode API
+"""
 from _util import absolute_path
 
 
 def get_leetcode_session_cookie(cookie_file: str) -> dict:
+    """
+    Get the LEETCODE_SESSION token from browser cookies file
+
+    Args:
+        cookie_file (str): path to Netscape HTTP Cookie File
+
+    Returns:
+        dict: containing token
+    """
     token = ''
     try:
         with open(absolute_path(cookie_file), 'r') as file:
