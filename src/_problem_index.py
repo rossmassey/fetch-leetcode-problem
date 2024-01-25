@@ -59,7 +59,7 @@ class ProblemIndex:
         with sqlite3.connect(self.db_path) as conn:
             conn.executescript(schema)
 
-    def _query(self, stmt: str, params: tuple, want_value: bool = False):
+    def _query(self, stmt: str, params: tuple) -> sqlite3.Row:
         """
         Executes a query.
 
@@ -74,9 +74,7 @@ class ProblemIndex:
         with self.conn as transaction:
             cursor = transaction.cursor()
             cursor.execute(stmt, params)
-
-            if want_value:
-                return cursor.fetchone()
+            return cursor.fetchone()
 
     def update_problems(self, problems: list):
         """
@@ -112,9 +110,9 @@ class ProblemIndex:
             sqlite3.Row: row containing the problem's num, title, slug, and question id
         """
         stmt = 'SELECT * FROM problems WHERE num = ?'
-        return self._query(stmt, (num,), want_value=True)
+        return self._query(stmt, (num,))
 
-    def count_problems(self) -> int:
+    def count_problems(self) -> sqlite3.Row:
         """
         Counts the number of problems in the problems table.
 
@@ -122,4 +120,4 @@ class ProblemIndex:
             int: count of problems
         """
         stmt = 'SELECT COUNT(*) FROM problems'
-        return self._query(stmt, (), want_value=True)
+        return self._query(stmt, ())
