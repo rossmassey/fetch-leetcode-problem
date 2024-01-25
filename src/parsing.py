@@ -175,6 +175,9 @@ def get_params(function_ast: ast.FunctionDef) -> tuple:
         if arg.annotation and hasattr(arg.annotation, 'id'):
             param_type = arg.annotation.id
         elif arg.annotation:
+            # FIXME: this work for List[int], but not List[List[int]] or more
+            # example: 2055
+            # need to travel down until find .id
             param_type = f'{arg.annotation.value.id}[{arg.annotation.slice.id}]'
 
         param_types.append(param_type)

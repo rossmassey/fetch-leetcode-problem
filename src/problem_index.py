@@ -36,8 +36,8 @@ class ProblemIndex:
             conn.executescript(schema)
 
     def _query(self, stmt, params, want_value=False):
-        with self.conn as conn:
-            cursor = conn.cursor()
+        with self.conn as transaction:
+            cursor = transaction.cursor()
             cursor.execute(stmt, params)
 
             if want_value:
@@ -54,3 +54,7 @@ class ProblemIndex:
     def select_problem(self, num):
         stmt = 'SELECT * FROM problems WHERE num = ?'
         return self._query(stmt, (num,), want_value=True)
+
+    def count_problems(self):
+        stmt = 'SELECT COUNT(*) FROM problems'
+        return self._query(stmt, (), want_value=True)

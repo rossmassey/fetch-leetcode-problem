@@ -7,9 +7,9 @@ def get_problem(num: int) -> dict | None:
     with ProblemIndex() as db:
         problem = db.select_problem(num)
 
-        if problem is None:
-            print(f'Could not find {num}')
-            return None
+    if problem is None:
+        print(f'Could not find {num}')
+        return None
 
     problem_info = leetcode_api.fetch_problem_info(problem['slug'])
     synced_code = leetcode_api.fetch_synced_code(problem['question_id'])
@@ -23,3 +23,10 @@ def update_problem_listing():
 
     with ProblemIndex() as db:
         db.update_problems(problems)
+
+
+def count_problems():
+    with ProblemIndex() as db:
+        count = db.count_problems()
+
+    return count['COUNT(*)']
