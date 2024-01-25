@@ -13,6 +13,8 @@ from . import problem_info
 
 
 def main():
+    problem_info.load_cookie()
+
     if len(sys.argv) > 1:
         argument = sys.argv[1]
 

@@ -8,7 +8,7 @@ from ._cookies import get_leetcode_session_cookie
 PROBLEM_API = 'https://leetcode.com/api/problems/all/'
 GRAPHQL_API = 'https://leetcode.com/graphql'
 
-COOKIE = get_leetcode_session_cookie('cookies.txt')
+COOKIE = None
 
 
 def fetch_problems() -> list:
@@ -111,3 +111,8 @@ def fetch_problem_info(slug: str) -> dict:
     }
 
     return _fetch_graphql(payload)['data']['question']
+
+
+def set_cookie(cookie_path: str):
+    global COOKIE
+    COOKIE = get_leetcode_session_cookie(cookie_path)

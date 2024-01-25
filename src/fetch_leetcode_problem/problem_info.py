@@ -5,6 +5,7 @@ question id in sqlite3 database.
 from . import _leetcode_api
 from ._parsing import extract_fields
 from ._problem_index import ProblemIndex
+from ._util import absolute_path
 
 
 def get_problem(num: int) -> dict | None:
@@ -69,3 +70,11 @@ def count_problems() -> int:
         count = db.count_problems()
 
     return count['COUNT(*)']
+
+
+def load_cookie(cookie_path: str = None):
+    if cookie_path is None:
+        # assume cookies.txt located in src directory
+        cookie_path = absolute_path('cookies.txt')
+
+    _leetcode_api.set_cookie(cookie_path)

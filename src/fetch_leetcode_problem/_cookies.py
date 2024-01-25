@@ -1,7 +1,6 @@
 """
 Get cookie for LeetCode API
 """
-from ._util import absolute_path
 
 
 def get_leetcode_session_cookie(cookie_file: str) -> dict:
@@ -16,7 +15,7 @@ def get_leetcode_session_cookie(cookie_file: str) -> dict:
     """
     token = ''
     try:
-        with open(absolute_path(cookie_file), 'r') as file:
+        with open(cookie_file, 'r') as file:
             for line in file:
                 if 'LEETCODE_SESSION' in line:
                     items = line.strip().split('\t')

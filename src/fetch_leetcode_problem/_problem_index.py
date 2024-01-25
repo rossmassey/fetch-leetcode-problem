@@ -10,6 +10,7 @@ from ._util import absolute_path
 
 # sqlite3 database file store location
 DB_PATH = 'problems.db'
+
 # path to SQL script that creates `problems` table
 SCHEMA_PATH = 'schema.sql'
 
