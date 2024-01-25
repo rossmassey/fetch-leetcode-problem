@@ -6,7 +6,7 @@ import os
 
 def absolute_path(relative_path: str) -> str:
     """
-    Get absolute path to file in src directory
+    Get absolute path to file in fetch_leetcode_problem directory
 
     Args:
         relative_path (str): relative path to file
