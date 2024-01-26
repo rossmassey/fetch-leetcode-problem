@@ -43,19 +43,19 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
   
    
 #### Example
-    In [1]: import fetch_leetcode_problem
+    In [1]: import fetch_leetcode_problem as lc
     
-    In [2]: fetch_leetcode_problem.count_problems()
+    In [2]: lc.count_problems()
     Out[2]: 0
     
-    In [3]: fetch_leetcode_problem.update_problem_listing()
+    In [3]: lc.update_problem_listing()
     
-    In [4]: fetch_leetcode_problem.count_problems()
+    In [4]: lc.count_problems()
     Out[4]: 3018
     
-    In [5]: fetch_leetcode_problem.load_cookie('cookies.txt')
+    In [5]: lc.load_cookie('cookies.txt')
     
-    In [6]: fetch_leetcode_problem.get_problem(1)
+    In [6]: lc.get_problem(1)
     Out[6]:
     {'num': '1',
      'title': 'Two Sum',
@@ -102,6 +102,15 @@ under Request Cookies, for requests to `leetcode.com`.
 
 Save as `cookies.txt` in the `src/fetch_leetcode_problem/` directory, or supply
 the `load_cookie` function with its relative location.
+
+##### copy cookies.txt to site packages
+Run these commands from location of `cookies.txt` for it to remain available
+
+```
+package_location=$(pip show rossmassey.fetch-leetcode-problem | grep Location)
+package_path=$(echo package_location | cut -d ' ' -f2)
+cp cookies.txt package_path
+```
 
 #### Deleting database
 1. Find site packages location with `pip show rossmassey.fetch-leetcode-problem`
