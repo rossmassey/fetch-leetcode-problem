@@ -30,8 +30,8 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
    
 #### API
 
-- **get_problems(num: int) -> dict | None**
-  - query leetcode GraphQL API to return problem info
+- **get_problem(num: int) -> dict | None**
+  - query leetcode GraphQL API to return problem info for `num`
 - **update_problem_listing()**
   - creates lookup table from leetcode REST API all-problem listing, indexed  by `num`
   - `slug` needed for problem info
