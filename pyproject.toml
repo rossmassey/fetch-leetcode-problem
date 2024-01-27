@@ -7,7 +7,7 @@ packages = ["src/fetch_leetcode_problem"]
 
 [project]
 name = "rossmassey.fetch_leetcode_problem"
-version = "0.0.9"
+version = "0.1.0"
 authors = [
   { name="Ross Massey", email="massey0ross@gmail.com" },
 ]
