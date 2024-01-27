@@ -47,19 +47,10 @@ def get_params(function_ast: ast.FunctionDef) -> tuple:
     """
     params = []
     param_types = []
+
     for arg in function_ast.args.args:
         params.append(arg.arg)
-        param_type = None
-
-        # FIXME: this work for List[int], but not List[List[int]] or more
-        # (i.e. 2055) arg.annotation.value.id does not exist
-        # will need to travel down until find .id
-        if arg.annotation and hasattr(arg.annotation, 'id'):
-            param_type = arg.annotation.id
-        elif arg.annotation:
-            param_type = f'{arg.annotation.value.id}[{arg.annotation.slice.id}]'
-
-        param_types.append(param_type)
+        param_types.append(_parse_annotation(arg.annotation))
 
     return params, param_types
 
@@ -74,13 +65,7 @@ def get_rtype(function_ast: ast.FunctionDef) -> str | None:
     Returns:
         str: the return type of the function
     """
-    rtype = None
-    # FIXME: see above
-    if function_ast.returns and hasattr(function_ast.returns, 'id'):
-        rtype = function_ast.returns.id
-    elif function_ast.returns:
-        rtype = f'{function_ast.returns.value.id}[{function_ast.returns.slice.id}]'
-    return rtype
+    return _parse_annotation(function_ast.returns)
 
 
 def _add_pass_to_functions(class_src: str) -> str:
@@ -105,3 +90,22 @@ def _add_pass_to_functions(class_src: str) -> str:
             modified_lines.append(indented_pass)
 
     return '\n'.join(modified_lines)
+
+
+def _parse_annotation(node: ast.arg.annotation) -> str:
+    """
+    Converts the annotation binary tree to a string
+
+    Travels down recursively, don't expect many levels...
+
+    Args:
+        ast.arg.annotation: the annotation object
+
+    Returns:
+        str: the annotation string
+    """
+    if isinstance(node, ast.Name):
+        return node.id
+
+    elif isinstance(node, ast.Subscript):
+        return f"{node.value.id}[{_parse_annotation(node.slice)}]"
