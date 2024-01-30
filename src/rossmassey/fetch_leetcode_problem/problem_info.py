@@ -17,13 +17,16 @@ def get_problem(num: int) -> dict | None:
     code.
 
     Returned fields include:
+
+    .. code-block:: none
+
         num (int): leetcode problem number
         title (str): problem title
         slug (str): problem slug
         difficulty (str): problem difficulty
         description (str): problem description
-        examples (list): problem examples
-        constraints (list): problem constraints
+        examples (list[dict]): problem examples
+        constraints (list[str]): problem constraints
         code_snippet (str): problem code snippet
         code (str): synced code
         func (dict): function info
@@ -73,6 +76,12 @@ def count_problems() -> int:
 
 
 def load_cookie(cookie_path: str = None):
+    """
+    Change cookie path from default
+
+    Params:
+        cookie_path (str): new cookie.txt path
+    """
     if cookie_path is None:
         # assume cookies.txt located in src directory
         cookie_path = absolute_path('cookies.txt')
