@@ -17,7 +17,12 @@ SCHEMA_PATH = 'schema.sql'
 
 class ProblemIndex:
     """
-    Manages a database connection to store and retrieve LeetCode problems.
+    Manages a database connection to store and retrieve LeetCode problems info
+
+    GraphQL queries require a title-slug and question-id separate from the
+    frontend id/number. Leetcode has a public listing of all problems, but
+    fetching + scanning that is slow. Instead, cache the results so that
+    operation is not repeated.
     """
     def __init__(self):
         """

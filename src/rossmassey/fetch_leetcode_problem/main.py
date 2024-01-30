@@ -2,9 +2,10 @@
 Main entry point for the program.
 
 Usage:
-    main.py u      -- update the problem index
-    main.py c      -- count number of problems
-    main.py <num>  -- get problem info for <num>
+
+    * ``u``      -- update the problem index
+    * ``c``      -- count number of problems
+    * ``<num>``  -- get problem info for <num>
 
 """
 import sys
@@ -13,6 +14,9 @@ from . import problem_info
 
 
 def main():
+    """
+    Main entry point
+    """
     problem_info.load_cookie()
 
     if len(sys.argv) > 1:
