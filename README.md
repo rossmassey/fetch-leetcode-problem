@@ -1,6 +1,6 @@
 # Fetch Problem
 
-Gets a dictionary with information about a leetcode problem, formatted in `rst`
+Python package to get a dictionary with information about a leetcode problem, formatted in `rst`
 
 ```
 - num 
@@ -30,13 +30,12 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
 ## Usage
 
 #### Installing
-1. Install package from [Python Package Index (PyPI)](https://pypi.org/project/rossmassey.fetch-leetcode-problem/) with
-  
-    `pip install rossmassey.fetch-leetcode-problem`
-
+1. Install package with `pip install rossmassey.fetch-leetcode-problem`
 2. Use `import fetch_leetcode_problem` or `from fetch_leetcode_problem import ...`
 
 #### Documentation
+
+[![Deploy Documentation](https://github.com/rossmassey/fetch-leetcode-problem/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/rossmassey/fetch-leetcode-problem/actions/workflows/gh-pages.yml)
 
 Sphinx documentation is generated from the docstrings
 
@@ -118,6 +117,12 @@ cp cookies.txt package_path
 3. Delete `problems.db`
 
 ## Building & Publishing to PyPI
+
+[![Upload Python Package](https://github.com/rossmassey/fetch-leetcode-problem/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rossmassey/fetch-leetcode-problem/actions/workflows/python-publish.yml)
+
+This is done automatically on release tag by GitHub actions
+
+### Manually
 Assume `.pypirc` configured in user home directory wih PyPI credentials
 ```
 rm -rf dist
