@@ -1,12 +1,18 @@
 # Fetch Problem
 
 Gets a dictionary with information about a leetcode problem, formatted in `rst`
+
+```
 - num 
 - title
 - slug
 - difficulty
 - description
 - list of examples
+  - inputs
+  - output
+  - explanation
+  - img
 - list of constraints
 - initial code snippet
 - synced user code* 
@@ -15,11 +21,11 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
   - list of params
   - list of param types
   - return type
-
+```
     
 *: requires `cookies.txt`
 
-**: assume implementing only one function for now
+**: assumes implementing only one function for now
 
 ## Usage
 
