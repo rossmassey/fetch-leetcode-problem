@@ -30,23 +30,17 @@ Gets a dictionary with information about a leetcode problem, formatted in `rst`
 ## Usage
 
 #### Installing
-1. Install package from Python Package Index (PyPI)
+1. Install package from [Python Package Index (PyPI)](https://pypi.org/project/rossmassey.fetch-leetcode-problem/) with
+  
+    `pip install rossmassey.fetch-leetcode-problem`
+
 2. Use `import fetch_leetcode_problem` or `from fetch_leetcode_problem import ...`
 
-   
-#### API
+#### Documentation
 
-- **get_problem(num: int) -> dict | None**
-  - query leetcode GraphQL API to return problem info for `num`
-- **update_problem_listing()**
-  - creates lookup table from leetcode REST API all-problem listing, indexed  by `num`
-  - `slug` needed for problem info
-  - `question_id` (can be separate from `num`) needed for synced code 
-- **count_problems() -> int**
-  - returns count in local db
-- **load_cookie(cookie_path: str = None)**
-  - loads cookie to be used in synced code query
-  
+Sphinx documentation is generated from the docstrings
+
+https://rossmassey.github.io/fetch-leetcode-problem/
    
 #### Example
     In [1]: import fetch_leetcode_problem as lc

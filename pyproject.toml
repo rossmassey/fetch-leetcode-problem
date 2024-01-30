@@ -7,7 +7,7 @@ packages = ["src/rossmassey/fetch_leetcode_problem"]
 
 [project]
 name = "rossmassey.fetch_leetcode_problem"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
   { name="Ross Massey", email="massey0ross@gmail.com" },
 ]
@@ -25,4 +25,5 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/rossmassey/fetch-leetcode-problem"
+Documentation = "https://rossmassey.github.io/fetch-leetcode-problem/"
 Issues = "https://github.com/rossmassey/fetch-leetcode-problem/issues"
