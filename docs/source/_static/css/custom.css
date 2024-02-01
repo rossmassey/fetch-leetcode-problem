@@ -1,9 +1,6 @@
 /* Change inline code formatting */
 code.literal {
-    color: black !important;
-    border: none;
     font-weight: bold;
-    background-color: transparent;
 }
 
 /* Add extra space to scroll at bottom */

@@ -3,6 +3,8 @@ Private API
 
 These are internal modules
 
+.. _cookies:
+
 _cookies.py
 ===========
 
@@ -30,6 +32,8 @@ _parsing.py
 .. automodule:: src.rossmassey.fetch_leetcode_problem._parsing
    :members:
    :private-members:
+
+.. _problem_index:
 
 _problem_index.py
 =================
